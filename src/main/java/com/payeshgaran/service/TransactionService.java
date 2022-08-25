@@ -24,21 +24,19 @@ public class TransactionService {
     public Transaction save(TransactionInDto transactionInDto, Long id) {
         Transaction save = transactionRepository.save(TransactionInDto.convertDtoToEntity(transactionInDto));
 
-        if (accountService.findById(id) != null && accountService.findByAccountNumber(transactionInDto.getAccountNumberReceiver()) != null) {
+//        if (accountService.findById(id) != null && accountService.findByAccountNumber(transactionInDto.getAccountNumberReceiver()) != null) {
             Account sender = accountService.findById(id);
             sender.setTransaction(List.of(save));
             sender.setBalance(sender.getBalance().subtract(save.getAmount()));
 //            Account sender = accountService.findById(id);
 //            accountService.saveWithOutDto(sender);
-
-
             Account receiver = accountService.findByAccountNumber(save.getAccountNumberReceiver());
             receiver.setBalance(receiver.getBalance().add(save.getAmount()));
 //            accountService.saveWithOutDto(receiver);
 
-        } else {
-            throw new AccountNullPointException();
-        }
+//        } else {
+//            throw new AccountNullPointException();
+//        }
 //        accountService.saveWithOutDto(account);
 
 

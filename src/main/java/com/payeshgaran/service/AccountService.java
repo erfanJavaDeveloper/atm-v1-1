@@ -5,6 +5,7 @@ import com.payeshgaran.entity.Account;
 import com.payeshgaran.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 //import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,19 +19,20 @@ import java.text.SimpleDateFormat;
 @Transactional
 public class AccountService {
     private final AccountRepository accountRepository;
+    private final PasswordEncoder passwordEncoder;
 //    private final PasswordEncoder passwordEncoder;
 //private static final DateFormat FORMAT = new SimpleDateFormat("####-####-####-####");
 
     @Transactional
     public void save(AccountInDto accountInDto) {
         Account account = accountInDto.converterDtoToEntity(accountInDto);
-//        account.setPin(passwordEncoder.encode(account.getPin()));
+        account.setPin(passwordEncoder.encode(account.getPin()));
         accountRepository.save(account);
     }
 
     @Transactional
     public void saveWithOutDto(Account account){
-//        account.setPin(passwordEncoder.encode(account.getPin()));
+        account.setPin(passwordEncoder.encode(account.getPin()));
         accountRepository.save(account);
     }
     @Transactional

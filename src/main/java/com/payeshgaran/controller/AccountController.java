@@ -9,6 +9,7 @@ import com.payeshgaran.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -22,12 +23,14 @@ public class AccountController {
     private final AccountRepository accountRepository;
 
     @PostMapping("/")
+    @PreAuthorize(value = "hasAnyRole('ADMIN')")
     public ResponseEntity<String> save(@RequestBody AccountInDto accountInDto) {
         accountService.save(accountInDto);
         return ResponseEntity.status(HttpStatus.OK).body("account with  id: "+accountService.findByAccountNumber(accountInDto.getAccountNumber()).getId() +"  saved ");
     }
 
     @GetMapping("/findById/{id}")
+    @PreAuthorize(value = "hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<AccountOutDto> findById(@PathVariable Long id) {
         Account account = accountService.findById(id);
         AccountOutDto accountOutDto = AccountOutDto.convertEntityToOutDto(account);
@@ -36,6 +39,7 @@ public class AccountController {
     }
 
     @DeleteMapping("/delete/{id}")
+//    @PreAuthorize("")
     public void delete(@PathVariable Long id) {
         accountService.delete(id);
     }
@@ -67,16 +71,18 @@ public class AccountController {
         accountService.update_AccountIncorrect_Attempts(incorrectAttempts.getIncorrectAttempts(), id);
     }
     @GetMapping("/findByAN/{accountNumber}")
+    @PreAuthorize(value = "hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<String> findByAccountNumber( @PathVariable String accountNumber){
         accountRepository.findByAccountNumber(accountNumber);
-        return ResponseEntity.status(HttpStatus.FOUND)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body("find testing :" + accountNumber);
     }
 
     @GetMapping("/findBalanceOfAccount/{id}")
+    @PreAuthorize(value = "hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<String> getBalanceOfAccount(@PathVariable Long id){
         BigInteger balanceOfAccount = accountService.getBalanceOfAccount(id);
-        return ResponseEntity.status(HttpStatus.FOUND)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body("balance of this id :" + balanceOfAccount);
     }
 
