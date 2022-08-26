@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,6 +25,7 @@ import static com.payeshgaran.entity.permission.Role.*;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserManagement userManagement;
@@ -38,17 +40,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http
+
                 .csrf().disable()
                 .authorizeRequests()
+                //*******
 //                .antMatchers(HttpMethod.GET, "/account/**").hasAnyRole(USER.name(), ADMIN.name() )
 //                .antMatchers(HttpMethod.POST, "/account/**").hasAnyAuthority( WRITE_USER.getPermissionName() )
 //                .antMatchers(HttpMethod.PUT, "/account/**").hasAnyAuthority(READ_USER.getPermissionName(), WRITE_USER.getPermissionName() )
 //                .antMatchers(HttpMethod.DELETE, "/account/**").hasAnyAuthority(READ_USER.getPermissionName(), WRITE_USER.getPermissionName() )
+                //*******
+
+//                .antMatchers
+//                        ("/")
+//                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .httpBasic();
-//        READ_USER.getPermissionName(),
     }
 
     @Override

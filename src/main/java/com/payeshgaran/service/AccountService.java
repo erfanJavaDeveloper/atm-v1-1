@@ -24,10 +24,10 @@ public class AccountService {
 //private static final DateFormat FORMAT = new SimpleDateFormat("####-####-####-####");
 
     @Transactional
-    public void save(AccountInDto accountInDto) {
+    public Account save(AccountInDto accountInDto) {
         Account account = accountInDto.converterDtoToEntity(accountInDto);
         account.setPin(passwordEncoder.encode(account.getPin()));
-        accountRepository.save(account);
+       return accountRepository.save(account);
     }
 
     @Transactional

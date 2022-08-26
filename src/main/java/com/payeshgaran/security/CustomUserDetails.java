@@ -1,13 +1,11 @@
 package com.payeshgaran.security;
 
 import com.payeshgaran.entity.User;
-import com.payeshgaran.entity.permission.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+
 
 public class CustomUserDetails implements UserDetails {
 
@@ -16,14 +14,20 @@ public class CustomUserDetails implements UserDetails {
     private final String username;
     private final String password;
     private final Boolean isEnable;
+    private final Boolean isAccountNonExpired;
+    private final Boolean  isAccountNonLocked;
+    private final Boolean isCredentialsNonExpired;
     private final Collection<? extends GrantedAuthority> authorities;
 
     public CustomUserDetails(User user) {
-        this.firstName = user.getFirstName();
+        this.firstName= user.getFirstName();
         this.lastName = user.getLastName();
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.isEnable = user.getIsEnable();
+        this.isAccountNonExpired = user.getIsAccountNonExpired();
+        this.isAccountNonLocked =  user.getIsAccountNonLocked();
+        this.isCredentialsNonExpired =user.getIsCredentialsNonExpired();
         this.authorities = user.getAuthorities();
     }
 
@@ -44,17 +48,18 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return isCredentialsNonExpired ;
     }
+
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return isAccountNonLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return isCredentialsNonExpired;
     }
 
     @Override

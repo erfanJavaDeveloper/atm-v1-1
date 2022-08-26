@@ -1,11 +1,9 @@
 package com.payeshgaran.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +18,7 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @JsonFormat(pattern="####-####-####-####")
+    //    @JsonFormat(pattern="####-####-####-####")
 //    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private String accountNumber;
 

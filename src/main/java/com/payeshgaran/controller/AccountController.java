@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 
 @RestController
@@ -25,12 +24,12 @@ public class AccountController {
     @PostMapping("/")
     @PreAuthorize(value = "hasAnyRole('ADMIN')")
     public ResponseEntity<String> save(@RequestBody AccountInDto accountInDto) {
-        accountService.save(accountInDto);
-        return ResponseEntity.status(HttpStatus.OK).body("account with  id: "+accountService.findByAccountNumber(accountInDto.getAccountNumber()).getId() +"  saved ");
+        Account save = accountService.save(accountInDto);
+        return ResponseEntity.status(HttpStatus.OK).body("account with  id: "+ save.getId() +"  saved ");
     }
 
     @GetMapping("/findById/{id}")
-    @PreAuthorize(value = "hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize(value = "hasAnyRole('ADMIN')")
     public ResponseEntity<AccountOutDto> findById(@PathVariable Long id) {
         Account account = accountService.findById(id);
         AccountOutDto accountOutDto = AccountOutDto.convertEntityToOutDto(account);

@@ -26,6 +26,10 @@ public class User {
     private String username;
     private String password;
     private Boolean isEnable;
+    private Boolean isAccountNonExpired;
+    private Boolean isAccountNonLocked;
+    private Boolean isCredentialsNonExpired;
+
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @Builder.Default
