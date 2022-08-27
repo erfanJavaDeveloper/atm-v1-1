@@ -40,6 +40,7 @@ public class AccountController {
     @DeleteMapping("/delete/{id}")
 //    @PreAuthorize("")
     public void delete(@PathVariable Long id) {
+
         accountService.delete(id);
     }
 
