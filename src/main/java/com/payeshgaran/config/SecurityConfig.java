@@ -12,20 +12,17 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
-import static com.payeshgaran.entity.permission.Permission.*;
-import static com.payeshgaran.entity.permission.Role.*;
+import static com.payeshgaran.entity.permission.Role.ADMIN;
+import static com.payeshgaran.entity.permission.Role.USER;
+
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserManagement userManagement;
@@ -43,20 +40,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .csrf().disable()
                 .authorizeRequests()
-                //*******
-//                .antMatchers(HttpMethod.GET, "/account/**").hasAnyRole(USER.name(), ADMIN.name() )
+//                                                 *******accounts
+//                .antMatchers(HttpMethod.GET, "/accounts/**").hasAnyRole(USER.name(), ADMIN.name())
+//                .antMatchers(HttpMethod.POST, "/accounts/**").hasAnyRole(ADMIN.name())
+//                .antMatchers(HttpMethod.PUT, "/accounts/**").hasAnyRole(ADMIN.name())
+//                .antMatchers(HttpMethod.DELETE, "/accounts/**").hasAnyRole(ADMIN.name())
+//                .antMatchers(HttpMethod.GET, "/transacts/**").hasAnyRole(USER.name(), ADMIN.name())
+//                .antMatchers(HttpMethod.POST, "/transacts/**").hasAnyRole(USER.name(), ADMIN.name())
+//                .antMatchers(HttpMethod.PUT, "/transacts/**").hasAnyRole(ADMIN.name())
+//                .antMatchers(HttpMethod.DELETE, "/transacts/**").hasAnyRole(ADMIN.name())
 //                .antMatchers(HttpMethod.POST, "/account/**").hasAnyAuthority( WRITE_USER.getPermissionName() )
 //                .antMatchers(HttpMethod.PUT, "/account/**").hasAnyAuthority(READ_USER.getPermissionName(), WRITE_USER.getPermissionName() )
 //                .antMatchers(HttpMethod.DELETE, "/account/**").hasAnyAuthority(READ_USER.getPermissionName(), WRITE_USER.getPermissionName() )
-                //*******
+//                *******
 
 //                .antMatchers
 //                        ("/")
 //                .permitAll()
                 .anyRequest()
                 .authenticated()
+//                .permitAll()
                 .and()
-                .httpBasic();
+                .httpBasic()
+                .and()
+                .formLogin()
+                .permitAll();
     }
 
     @Override
@@ -64,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
 
-    public DaoAuthenticationProvider daoAuthenticationProvider(){
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder());
         provider.setUserDetailsService(userManagement);

@@ -1,8 +1,5 @@
 package com.payeshgaran.entity.permission;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
 
 public enum Permission {
     READ_USER("user:read"),

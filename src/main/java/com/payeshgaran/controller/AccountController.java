@@ -16,20 +16,20 @@ import java.math.BigInteger;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/account")
+@RequestMapping("/accounts")
 public class AccountController {
     private final AccountService accountService;
     private final AccountRepository accountRepository;
 
     @PostMapping("/")
-    @PreAuthorize(value = "hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<String> save(@RequestBody AccountInDto accountInDto) {
         Account save = accountService.save(accountInDto);
         return ResponseEntity.status(HttpStatus.OK).body("account with  id: "+ save.getId() +"  saved ");
     }
 
     @GetMapping("/findById/{id}")
-    @PreAuthorize(value = "hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<AccountOutDto> findById(@PathVariable Long id) {
         Account account = accountService.findById(id);
         AccountOutDto accountOutDto = AccountOutDto.convertEntityToOutDto(account);
@@ -38,7 +38,7 @@ public class AccountController {
     }
 
     @DeleteMapping("/delete/{id}")
-//    @PreAuthorize("")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public void delete(@PathVariable Long id) {
 
         accountService.delete(id);
@@ -71,7 +71,7 @@ public class AccountController {
         accountService.update_AccountIncorrect_Attempts(incorrectAttempts.getIncorrectAttempts(), id);
     }
     @GetMapping("/findByAN/{accountNumber}")
-    @PreAuthorize(value = "hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<String> findByAccountNumber( @PathVariable String accountNumber){
         accountRepository.findByAccountNumber(accountNumber);
         return ResponseEntity.status(HttpStatus.OK)
@@ -79,7 +79,7 @@ public class AccountController {
     }
 
     @GetMapping("/findBalanceOfAccount/{id}")
-    @PreAuthorize(value = "hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<String> getBalanceOfAccount(@PathVariable Long id){
         BigInteger balanceOfAccount = accountService.getBalanceOfAccount(id);
         return ResponseEntity.status(HttpStatus.OK)

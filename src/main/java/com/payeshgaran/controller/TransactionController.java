@@ -10,19 +10,20 @@ import com.payeshgaran.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/transaction")
+@RequestMapping("/transactions")
 public class TransactionController {
     private final TransactionService transactionService;
     private final AccountService accountService;
 
     @PostMapping("/{accountId}")
+    @PreAuthorize(value = "hasAnyRole('USER')")
     public ResponseEntity<String> save( @RequestBody TransactionInDto transactionInDto, @PathVariable Long accountId) {
 
         Transaction transaction = transactionService.save(transactionInDto, accountId);
@@ -34,6 +35,7 @@ public class TransactionController {
 
     //    public ResponseEntity<String> delete(@Valid @RequestParam Long id, @PathVariable String id) {
     @DeleteMapping("/remove/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         transactionService.delete(id);
         return ResponseEntity.status(HttpStatus.OK)
@@ -41,6 +43,7 @@ public class TransactionController {
     }
 
     @GetMapping("/findById/{id}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<TransactionOutDto> findById(@PathVariable Long id) {
         Transaction transaction = transactionService.findById(id);
         TransactionOutDto transactionOutDto = TransactionOutDto.convertEntityToOutDto(transaction);
@@ -49,14 +52,13 @@ public class TransactionController {
     }
 
     @GetMapping("/findTheLastThenTransactions")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<List<TransactionOutDto>> findTheLastThenTransactions(@RequestBody TransactionFindInDto transactionFindInDto){
         List<Transaction> theLastThenTransactions = transactionService.findTheLastThenTransactions(transactionFindInDto.getAccountNumber());
         List<TransactionOutDto> transactionOutDtoList = TransactionOutDto.convertEntityListToOutDtoList(theLastThenTransactions);
         return ResponseEntity.status(HttpStatus.FOUND)
                 .body(transactionOutDtoList);
     }
-
-
 
 
 }

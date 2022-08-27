@@ -17,5 +17,6 @@ public class UserManagement implements UserDetailsService {
         User user = userRepository.findByUsername(username);
         CustomUserDetails customUserDetails = new CustomUserDetails(user);
         return customUserDetails;
+
     }
 }

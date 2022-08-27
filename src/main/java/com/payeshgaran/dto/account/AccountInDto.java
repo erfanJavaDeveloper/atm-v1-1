@@ -12,8 +12,8 @@ import java.math.BigInteger;
 
 @Data
 public class AccountInDto {
-    @ApiModelProperty(required = true)
-    private String accountNumber;
+//    @ApiModelProperty(required = true)
+//    private String accountNumber;
 
     @ApiModelProperty(required = true)
     private String pin;
@@ -32,7 +32,7 @@ public class AccountInDto {
 
     public Account converterDtoToEntity(AccountInDto accountInDto) {
         Account account = new Account();
-        account.setAccountNumber(accountInDto.getAccountNumber());
+//        account.setAccountNumber(accountInDto.getAccountNumber());
         account.setBalance(accountInDto.getBalance());
         account.setLocked(accountInDto.getLocked());
         account.setPin(accountInDto.getPin());

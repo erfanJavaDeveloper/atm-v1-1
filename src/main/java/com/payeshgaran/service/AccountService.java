@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -20,12 +21,15 @@ import java.text.SimpleDateFormat;
 public class AccountService {
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
+    Random rnd = new Random();
+
 //    private final PasswordEncoder passwordEncoder;
 //private static final DateFormat FORMAT = new SimpleDateFormat("####-####-####-####");
 
     @Transactional
     public Account save(AccountInDto accountInDto) {
         Account account = accountInDto.converterDtoToEntity(accountInDto);
+        account.setAccountNumber("123"+rnd.nextInt(999999999));
         account.setPin(passwordEncoder.encode(account.getPin()));
        return accountRepository.save(account);
     }
@@ -33,6 +37,7 @@ public class AccountService {
     @Transactional
     public void saveWithOutDto(Account account){
         account.setPin(passwordEncoder.encode(account.getPin()));
+        account.setAccountNumber("123"+rnd.nextInt(999999999));
         accountRepository.save(account);
     }
     @Transactional

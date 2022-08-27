@@ -13,7 +13,8 @@ import java.math.BigInteger;
 public class TransactionInDto {
 
     @ApiModelProperty(required = true)
-    private TypeOfTransaction type = TypeOfTransaction.IN_PROGRESS;
+//    private TypeOfTransaction type ;
+    private TypeOfTransaction type = TypeOfTransaction.DONE;
 
     @ApiModelProperty(required = true)
     private String accountNumberSender;
