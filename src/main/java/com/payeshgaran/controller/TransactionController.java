@@ -1,13 +1,10 @@
 package com.payeshgaran.controller;
 
-
-import com.payeshgaran.dto.transaction.TransactionFindInDto;
-import com.payeshgaran.dto.transaction.TransactionInDto;
-import com.payeshgaran.dto.transaction.TransactionOutDto;
+import com.payeshgaran.model.transaction.TransactionInDto;
+import com.payeshgaran.model.transaction.TransactionOutDto;
 import com.payeshgaran.entity.Transaction;
-import com.payeshgaran.service.AccountService;
 import com.payeshgaran.service.TransactionService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,24 +13,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/transactions")
 public class TransactionController {
-    private final TransactionService transactionService;
-    private final AccountService accountService;
+    @Autowired
+    private TransactionService transactionService;
 
-    @PostMapping("/{accountId}")
-    @PreAuthorize(value = "hasAnyRole('USER')")
-    public ResponseEntity<String> save( @RequestBody TransactionInDto transactionInDto, @PathVariable Long accountId) {
 
-        Transaction transaction = transactionService.save(transactionInDto, accountId);
+    @PostMapping("/")
+    @PreAuthorize(value = "hasAnyRole('ADMIN')")
+    public ResponseEntity<String> save(@RequestBody TransactionInDto transactionInDto) {
+
+        Transaction transaction = transactionService.save(transactionInDto);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(" don your transaction with Issue Tracking : " + transaction.getId());
 
     }
 
-    //    public ResponseEntity<String> delete(@Valid @RequestParam Long id, @PathVariable String id) {
     @DeleteMapping("/remove/{id}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<String> delete(@PathVariable Long id) {
@@ -51,14 +47,14 @@ public class TransactionController {
                 .body(transactionOutDto);
     }
 
-    @GetMapping("/findTheLastThenTransactions")
+    @GetMapping("/findTheLastThenTransactions/{accountNumber}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<List<TransactionOutDto>> findTheLastThenTransactions(@RequestBody TransactionFindInDto transactionFindInDto){
-        List<Transaction> theLastThenTransactions = transactionService.findTheLastThenTransactions(transactionFindInDto.getAccountNumber());
-        List<TransactionOutDto> transactionOutDtoList = TransactionOutDto.convertEntityListToOutDtoList(theLastThenTransactions);
+    public ResponseEntity<List<Transaction>> findTheLastThenTransactions(@PathVariable String accountNumber) {
+        List<Transaction> theLastThenTransactions = transactionService.findTheLastThenTransactions(accountNumber);
+//        List<Transaction> theLastThenTransactions = transactionService.findTheLastThenTransactions(transactionFindInDto.getAccountNumber());
+//        List<TransactionOutDto> transactionOutDtoList = TransactionOutDto.convertEntityListToOutDtoList(theLastThenTransactions);
         return ResponseEntity.status(HttpStatus.FOUND)
-                .body(transactionOutDtoList);
+                .body(theLastThenTransactions);
     }
-
 
 }

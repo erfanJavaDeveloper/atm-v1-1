@@ -1,7 +1,6 @@
 package com.payeshgaran.entity.permission;
 
 
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -11,7 +10,7 @@ import java.util.stream.Collectors;
 import static com.payeshgaran.entity.permission.Permission.*;
 
 //@AllArgsConstructor
-//@NoArgsConstructor
+@NoArgsConstructor
 public enum Role {
     ADMIN(Set.of(READ_ACCOUNT, WRITE_ACCOUNT, READ_USER, WRITE_USER, READ_TRANSACTION, WRITE_TRANSACTION)),
     USER(Set.of(Permission.READ_USER, Permission.READ_TRANSACTION, Permission.WRITE_TRANSACTION));

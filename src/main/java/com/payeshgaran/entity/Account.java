@@ -1,38 +1,45 @@
 package com.payeshgaran.entity;
 
 
+import com.payeshgaran.entity.permission.Role;
 import lombok.*;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
+//@NoArgsConstructor
+//todo  why when use @NoArgsConstructor can't run application ¯\_(ツ)_/¯
+@Table(name = "accounts")
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //    @JsonFormat(pattern="####-####-####-####")
-//    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String accountNumber;
-
     private String pin;
-
     private BigInteger balance;
+    private Boolean isEnable;
+    private Boolean isAccountNonExpired;
+    private Boolean isAccountNonLocked;
+    private Boolean isCredentialsNonExpired;
+    private int incorrectAttempts = 0;
 
     @Enumerated(EnumType.STRING)
     private TypeOfAccount type = TypeOfAccount.LOANS;
 
     @Enumerated(EnumType.STRING)
     private Locked locked = Locked.ENABLE;
-
-    private int incorrectAttempts = 0;
 
     @Basic
     @Temporal(TemporalType.DATE)
@@ -54,5 +61,19 @@ public class Account {
     @JoinColumn(name = "account_id")
     private List<Transaction> transaction;
 
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @Builder.Default
+    private Set<Role> roles = new HashSet<>();
+
+    public Account() {
+
+    }
+
+
+    public Set<SimpleGrantedAuthority> getAuthorities() {
+        return roles.stream().flatMap(r -> r.getAuthority().stream())
+                .collect(Collectors.toSet());
+
+    }
 
 }

@@ -1,10 +1,9 @@
-package com.payeshgaran.dto.transaction;
+package com.payeshgaran.model.transaction;
 
 import com.payeshgaran.entity.Transaction;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;

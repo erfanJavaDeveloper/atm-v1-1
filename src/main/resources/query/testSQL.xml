@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
+                 version="1.0">
+    <named-native-query result-class="com.payeshgaran.entity.Transaction" name="Transaction.findTransactionThen">
+        <query>
+            select * from Transaction t where t.account_number_receiver = :accountNumber or t.account_number_sender = :accountNumber order by t.id
+        </query>
+    </named-native-query>
+
+    <named-native-query result-class="com.payeshgaran.entity.Account" name="Account.update_AccountNumber">
+        <query>
+            update Account a set a.accountNumber=:accountNumber where a.id=:id
+        </query>
+    </named-native-query>
+
+
+    <named-native-query result-class="com.payeshgaran.entity.Account" name="Account.update_Account_Balance">
+        <query>
+            update Account a set a.balance=:balance where a.id=:id
+        </query>
+    </named-native-query>
+    <named-native-query result-class="com.payeshgaran.entity.Account" name="Account.update_AccountIncorrect_Attempts">
+        <query>
+            update Account a set a.incorrectAttempts=:incorrectAttempts where a.id=:id
+        </query>
+    </named-native-query>
+
+
+    <named-native-query result-class="com.payeshgaran.entity.Account" name="Account.update_Account_Locked">
+        <query>
+            update Account a set a.locked=:locked  where a.id=:id
+        </query>
+    </named-native-query>
+
+    <named-native-query result-class="com.payeshgaran.entity.Account" name="Account.update_Account_Pin">
+        <query>
+            update Account a set a.pin=:pin where a.id=:id
+        </query>
+    </named-native-query>
+
+
+    <named-native-query result-class="com.payeshgaran.entity.Account" name="Account.update_Account_Type">
+        <query>
+            update Account a set a.type=:type where a.id=:id
+        </query>
+    </named-native-query>
+
+
+
+
+</entity-mappings>

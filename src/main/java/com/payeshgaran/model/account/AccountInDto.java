@@ -1,19 +1,15 @@
-package com.payeshgaran.dto.account;
+package com.payeshgaran.model.account;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.payeshgaran.entity.Account;
 import com.payeshgaran.entity.Locked;
 import com.payeshgaran.entity.TypeOfAccount;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 
 @Data
 public class AccountInDto {
-//    @ApiModelProperty(required = true)
-//    private String accountNumber;
 
     @ApiModelProperty(required = true)
     private String pin;
@@ -32,7 +28,6 @@ public class AccountInDto {
 
     public Account converterDtoToEntity(AccountInDto accountInDto) {
         Account account = new Account();
-//        account.setAccountNumber(accountInDto.getAccountNumber());
         account.setBalance(accountInDto.getBalance());
         account.setLocked(accountInDto.getLocked());
         account.setPin(accountInDto.getPin());

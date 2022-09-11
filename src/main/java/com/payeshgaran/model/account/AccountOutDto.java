@@ -1,4 +1,4 @@
-package com.payeshgaran.dto.account;
+package com.payeshgaran.model.account;
 
 import com.payeshgaran.entity.Account;
 import io.swagger.annotations.ApiModelProperty;

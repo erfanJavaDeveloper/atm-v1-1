@@ -1,4 +1,4 @@
-package com.payeshgaran.dto.account.update;
+package com.payeshgaran.model.account.update;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

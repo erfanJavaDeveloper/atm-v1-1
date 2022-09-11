@@ -1,6 +1,6 @@
 package com.payeshgaran.security;
 
-import com.payeshgaran.entity.User;
+import com.payeshgaran.entity.Account;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,26 +9,23 @@ import java.util.Collection;
 
 public class CustomUserDetails implements UserDetails {
 
-    private final String firstName;
-    private final String lastName;
-    private final String username;
-    private final String password;
+    private final String accountNumber;
+    private final String pin;
     private final Boolean isEnable;
     private final Boolean isAccountNonExpired;
-    private final Boolean  isAccountNonLocked;
+    private final Boolean isAccountNonLocked;
     private final Boolean isCredentialsNonExpired;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public CustomUserDetails(User user) {
-        this.firstName= user.getFirstName();
-        this.lastName = user.getLastName();
-        this.username = user.getUsername();
-        this.password = user.getPassword();
-        this.isEnable = user.getIsEnable();
-        this.isAccountNonExpired = user.getIsAccountNonExpired();
-        this.isAccountNonLocked =  user.getIsAccountNonLocked();
-        this.isCredentialsNonExpired =user.getIsCredentialsNonExpired();
-        this.authorities = user.getAuthorities();
+    public CustomUserDetails(Account account) {
+
+        this.accountNumber = account.getAccountNumber();
+        this.pin = account.getPin();
+        this.isEnable = account.getIsEnable();
+        this.isAccountNonExpired = account.getIsAccountNonExpired();
+        this.isAccountNonLocked = account.getIsAccountNonLocked();
+        this.isCredentialsNonExpired = account.getIsCredentialsNonExpired();
+        this.authorities = account.getAuthorities();
     }
 
     @Override
@@ -38,17 +35,18 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return password;
+        return pin;
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return accountNumber;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return isCredentialsNonExpired ;
+//        return isCredentialsNonExpired;
+        return isAccountNonExpired;
     }
 
 

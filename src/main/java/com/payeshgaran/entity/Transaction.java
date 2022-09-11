@@ -15,15 +15,12 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Enumerated(EnumType.STRING)
-    private TypeOfTransaction type =TypeOfTransaction.IN_PROGRESS;
+    private TypeOfTransaction type = TypeOfTransaction.IN_PROGRESS;
 
-    //    @Column(name = "accountNumber_Sender")
     private String accountNumberSender;
-
-    //    @Column(name = "accountNumber_Receiver")
     private String accountNumberReceiver;
-
     private BigInteger amount;
 
     @Basic

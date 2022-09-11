@@ -2,6 +2,7 @@ package com.payeshgaran.config;
 
 import com.payeshgaran.security.UserManagement;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -23,9 +24,9 @@ import static com.payeshgaran.entity.permission.Role.USER;
 @EnableWebSecurity
 @EnableMethodSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final UserManagement userManagement;
+    @Autowired
+    private UserManagement userManagement;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -60,11 +61,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
 //                .permitAll()
+
                 .and()
                 .httpBasic()
                 .and()
-                .formLogin()
-                .permitAll();
+                .headers().frameOptions().disable();
+//                .and()
+//                .formLogin()
+//                .permitAll();
     }
 
     @Override
