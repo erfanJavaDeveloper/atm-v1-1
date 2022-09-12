@@ -1,19 +1,16 @@
 package com.payeshgaran.validation;
 
 import com.payeshgaran.model.transaction.TransactionInDto;
-import com.payeshgaran.service.TransactionService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
 public class TransactionValidation {
-    private TransactionService transactionService;
 
-    public TransactionValidation(TransactionService transactionService) {
-        this.transactionService = transactionService;
-    }
-
-
+    /** this method can find current account
+     *
+     * @return accountNumber of current account
+     */
     public String currentAccount() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username ;
@@ -32,4 +29,5 @@ public class TransactionValidation {
         }
         return false;
     }
+
 }

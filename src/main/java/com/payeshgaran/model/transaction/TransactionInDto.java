@@ -11,9 +11,9 @@ import java.math.BigInteger;
 @Data
 public class TransactionInDto {
 
-    @ApiModelProperty(required = true)
+//    @ApiModelProperty(required = true)
+////    private TypeOfTransaction type ;
 //    private TypeOfTransaction type ;
-    private TypeOfTransaction type = TypeOfTransaction.DONE;
 
     @ApiModelProperty(required = true)
     private String accountNumberSender;
@@ -35,7 +35,7 @@ public class TransactionInDto {
         transaction.setAmount(transactionInDto.getAmount());
         transaction.setAccountNumberSender(transactionInDto.getAccountNumberSender());
         transaction.setAccountNumberReceiver(transactionInDto.getAccountNumberReceiver());
-        transaction.setType(transactionInDto.getType());
+//        transaction.setType(transactionInDto.getType());
         return transaction;
     }
 

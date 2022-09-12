@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigInteger;
 
 @RestController
@@ -24,7 +25,7 @@ public class AccountController {
 
     @PostMapping("/")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<String> save(@RequestBody AccountInDto accountInDto) {
+    public ResponseEntity<String> save(@Valid @RequestBody AccountInDto accountInDto) {
         Account save = accountService.save(accountInDto);
         return ResponseEntity.status(HttpStatus.OK).body("account with  id: " + save.getId() + "  saved ");
     }
@@ -80,7 +81,7 @@ public class AccountController {
     @GetMapping("/findByAN/{accountNumber}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<String> findByAccountNumber(@PathVariable String accountNumber) {
-        accountDao.findByAccountNumber(accountNumber);
+        accountService.findByAccountNumber(accountNumber);
         return ResponseEntity.status(HttpStatus.OK)
                 .body("find testing :" + accountNumber);
     }
@@ -92,5 +93,4 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body("balance of this id :" + balanceOfAccount);
     }
-
 }

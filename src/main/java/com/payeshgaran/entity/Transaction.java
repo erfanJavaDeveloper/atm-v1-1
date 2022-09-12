@@ -3,6 +3,7 @@ package com.payeshgaran.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.math.BigInteger;
 import java.util.Date;
 
@@ -21,7 +22,10 @@ public class Transaction {
 
     private String accountNumberSender;
     private String accountNumberReceiver;
+    @Min(value = 500)
     private BigInteger amount;
+
+    private Boolean isTrue;
 
     @Basic
     @Temporal(TemporalType.DATE)

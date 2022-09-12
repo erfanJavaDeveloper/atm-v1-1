@@ -10,39 +10,45 @@
 
     <named-native-query result-class="com.payeshgaran.entity.Account" name="Account.update_AccountNumber">
         <query>
-            update Account a set a.accountNumber=:accountNumber where a.id=:id
+            update Accounts a set a.account_number=:accountNumber where a.id=:id
         </query>
     </named-native-query>
 
 
     <named-native-query result-class="com.payeshgaran.entity.Account" name="Account.update_Account_Balance">
         <query>
-            update Account a set a.balance=:balance where a.id=:id
+            update Accounts a set a.balance=:balance where a.id=:id
         </query>
     </named-native-query>
     <named-native-query result-class="com.payeshgaran.entity.Account" name="Account.update_AccountIncorrect_Attempts">
         <query>
-            update Account a set a.incorrectAttempts=:incorrectAttempts where a.id=:id
+            update Accounts a set a.incorrect_attempts =:incorrectAttempts where a.id=:id
         </query>
     </named-native-query>
 
 
     <named-native-query result-class="com.payeshgaran.entity.Account" name="Account.update_Account_Locked">
         <query>
-            update Account a set a.locked=:locked  where a.id=:id
+            update Accounts a set a.locked=:locked  where a.id=:id
         </query>
     </named-native-query>
 
     <named-native-query result-class="com.payeshgaran.entity.Account" name="Account.update_Account_Pin">
         <query>
-            update Account a set a.pin=:pin where a.id=:id
+            update Accounts a set a.pin=:pin where a.id=:id
         </query>
     </named-native-query>
 
 
     <named-native-query result-class="com.payeshgaran.entity.Account" name="Account.update_Account_Type">
         <query>
-            update Account a set a.type=:type where a.id=:id
+            update Accounts a set a.type=:type where a.id=:id
+        </query>
+    </named-native-query>
+
+    <named-native-query result-class="com.payeshgaran.entity.Account" name="Account.findByAccountNumber">
+        <query>
+            select * from Accounts a where a.account_number =:accountNumber
         </query>
     </named-native-query>
 

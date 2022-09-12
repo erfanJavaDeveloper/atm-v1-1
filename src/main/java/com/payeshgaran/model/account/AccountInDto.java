@@ -5,13 +5,18 @@ import com.payeshgaran.entity.Locked;
 import com.payeshgaran.entity.TypeOfAccount;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
 import java.math.BigInteger;
 
 @Data
 public class AccountInDto {
 
     @ApiModelProperty(required = true)
+//    @Validated(value = "^([0-9]{3,5})$")
+    @Pattern(regexp = "^([0-9]{3,5})$")
     private String pin;
 
     @ApiModelProperty(required = true)
@@ -35,4 +40,5 @@ public class AccountInDto {
         account.setType(accountInDto.getType());
         return account;
     }
+
 }

@@ -11,8 +11,6 @@ import java.util.List;
 
 public interface TransactionDao extends JpaRepository<Transaction, Long> {
 
-
-
     @Query(nativeQuery = true)
     List<Transaction> findTransactionThen(@Param("accountNumber") String accountNumber);
 

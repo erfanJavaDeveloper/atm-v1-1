@@ -7,10 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 import java.math.BigInteger;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -59,16 +56,19 @@ public class Account {
 
     @OneToMany
     @JoinColumn(name = "account_id")
-    private List<Transaction> transaction;
+    private List<Transaction> transaction =new ArrayList<>() ;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @Builder.Default
     private Set<Role> roles = new HashSet<>();
 
     public Account() {
-
     }
 
+    // amirhossein
+    public void addTransaction(Transaction trx) {
+        transaction.add(trx);
+    }
 
     public Set<SimpleGrantedAuthority> getAuthorities() {
         return roles.stream().flatMap(r -> r.getAuthority().stream())

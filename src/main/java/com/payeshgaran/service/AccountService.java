@@ -1,10 +1,13 @@
 package com.payeshgaran.service;
 
-import com.payeshgaran.model.account.AccountInDto;
+import com.payeshgaran.dao.AccountDao;
 import com.payeshgaran.entity.Account;
 import com.payeshgaran.entity.permission.Role;
-import com.payeshgaran.dao.AccountDao;
+import com.payeshgaran.model.account.AccountInDto;
+import com.payeshgaran.validation.AccountValidation;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,13 +21,15 @@ import java.util.Set;
 @Service
 @Transactional
 @NoArgsConstructor
+//@AllArgsConstructor
+//@RequiredArgsConstructor
 public class AccountService {
     @Autowired
     private AccountDao accountDao;
     @Autowired
-    private  PasswordEncoder passwordEncoder;
-    Random rnd = new Random();
+    private PasswordEncoder passwordEncoder;
 
+    Random rnd = new Random();
 
 
     @Transactional
@@ -43,7 +48,6 @@ public class AccountService {
     @Transactional
     public void saveWithOutDto(Account account) {
         account.setPin(passwordEncoder.encode(account.getPin()));
-//        account.setAccountNumber("123"+rnd.nextInt(999999999));
         account.setRoles(Set.of(Role.ADMIN));
         account.setIsAccountNonExpired(true);
         account.setIsCredentialsNonExpired(true);
@@ -61,10 +65,6 @@ public class AccountService {
     public void delete(Long id) {
         accountDao.delete(findById(id));
     }
-
-
-
-
 
     //todo update account service @Erfan adine (1)
     @Transactional
@@ -97,8 +97,10 @@ public class AccountService {
     }
 
     public BigInteger getBalanceOfAccount(Long id) {
-        return accountDao.findById(id).get().getBalance();
+        if (accountDao.findById(id).isPresent()) {
+            return accountDao.findById(id).get().getBalance();
+        }
+        return null;
     }
-
 
 }
